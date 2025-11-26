@@ -24,6 +24,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  
   // Obtenemos el estado de autenticación del contexto
   const { isAuthenticated } = useAuth();
 

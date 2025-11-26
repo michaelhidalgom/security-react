@@ -23,18 +23,18 @@ import { AuthContextType } from '../types/auth.types';
 
 export const useAuth = (): AuthContextType => {
   // Obtenemos el valor actual del contexto
-  const context = useContext(AuthContext);
+  const authContexType = useContext(AuthContext);
   
   // Si context es null, significa que useAuth() se está usando
   // fuera del AuthProvider. Esto es un error del desarrollador.
-  if (!context) {
+  if (!authContexType) {
     throw new Error(
       'useAuth debe usarse dentro de un AuthProvider. ' +
       'Asegúrate de envolver tu aplicación con <AuthProvider>.'
     );
   }
-  
-  return context;
+  // {user, token, login...}
+  return authContexType;
 };
 
 // =============================================================================

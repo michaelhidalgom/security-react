@@ -1,6 +1,4 @@
-import { 
-  LoginCredentials, 
-  LoginResponse, 
+import { LoginCredentials, LoginResponse, 
   User, 
   BackendLoginResponse,
   AuthToken,

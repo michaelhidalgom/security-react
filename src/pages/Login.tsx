@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import styles from './Login.module.css';
 
+
 // =============================================================================
 // COMPONENTE LOGIN
 // =============================================================================
@@ -35,6 +36,7 @@ const Login = () => {
   // useAuth: Acceso al contexto de autenticación
   // useNavigate: Para redireccionar después del login
   // =========================================================================
+  //{user, token, login...}
   const { login } = useAuth();
   const navigate = useNavigate();
 
