@@ -1,100 +1,154 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import styles from './Login.module.css';
+
+// =============================================================================
+// COMPONENTE LOGIN
+// =============================================================================
+// Esta página permite al usuario iniciar sesión.
+// 
+// Flujo:
+// 1. Usuario ingresa email y password
+// 2. Al enviar, llamamos a login() del contexto
+// 3. Si es exitoso, navegamos al dashboard
+// 4. Si falla, mostramos el mensaje de error
+//
+// CSS Modules:
+// - Importamos estilos como objeto: import styles from './Login.module.css'
+// - Usamos clases así: className={styles.nombreClase}
+// - Esto genera nombres únicos y evita conflictos
+// =============================================================================
 
 const Login = () => {
+  // =========================================================================
+  // ESTADO LOCAL DEL FORMULARIO
+  // =========================================================================
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   
+  // =========================================================================
+  // HOOKS
+  // =========================================================================
+  // useAuth: Acceso al contexto de autenticación
+  // useNavigate: Para redireccionar después del login
+  // =========================================================================
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // =========================================================================
+  // MANEJADOR DE ENVÍO DEL FORMULARIO
+  // =========================================================================
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    // Prevenir recarga de página (comportamiento por defecto de los forms)
     e.preventDefault();
+    
+    // Limpiar error anterior y mostrar loading
     setError('');
     setLoading(true);
 
+    // Intentar login
     const result = await login(email, password);
 
     if (result.success) {
+      // Login exitoso: redirigir al dashboard
       navigate('/dashboard');
     } else {
+      // Login fallido: mostrar error al usuario
+      // El mensaje viene del auth.service con información útil
       setError(result.error || 'Error al iniciar sesión');
     }
     
     setLoading(false);
   };
 
+  // =========================================================================
+  // MANEJADORES DE CAMBIO DE INPUTS
+  // =========================================================================
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setPassword(e.target.value);
+  };
+
+  // =========================================================================
+  // RENDERIZADO
+  // =========================================================================
+  // Observa cómo usamos styles.nombreClase en lugar de strings
+  // Esto viene del CSS Module que importamos arriba
+  // =========================================================================
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
-      <h2>Login</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Iniciar Sesión</h2>
       
+      {/* Mensaje de error - solo se muestra si hay error */}
       {error && (
-        <div style={{ 
-          color: 'red', 
-          marginBottom: '10px',
-          padding: '10px',
-          backgroundColor: '#ffebee',
-          borderRadius: '4px'
-        }}>
-          {error}
+        <div className={styles.errorContainer}>
+          <p className={styles.errorText}>{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email">Email:</label>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        {/* Campo de Email */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor="email">
+            Correo electrónico
+          </label>
           <input
             id="email"
             type="email"
             value={email}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
+            placeholder="ejemplo@correo.com"
             required
-            style={{ 
-              width: '100%', 
-              padding: '8px', 
-              marginTop: '5px',
-              boxSizing: 'border-box'
-            }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password">Password:</label>
+        {/* Campo de Password */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor="password">
+            Contraseña
+          </label>
           <input
             id="password"
             type="password"
             value={password}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
+            placeholder="••••••••"
             required
-            style={{ 
-              width: '100%', 
-              padding: '8px', 
-              marginTop: '5px',
-              boxSizing: 'border-box'
-            }}
+            className={styles.input}
           />
         </div>
 
+        {/* Botón de Submit */}
         <button 
           type="submit" 
           disabled={loading}
-          style={{ 
-            width: '100%', 
-            padding: '10px', 
-            cursor: loading ? 'not-allowed' : 'pointer',
-            backgroundColor: loading ? '#ccc' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '16px'
-          }}
+          className={styles.submitButton}
         >
-          {loading ? 'Cargando...' : 'Iniciar Sesión'}
+          {loading ? (
+            <>
+              <span className={styles.loadingSpinner}></span>
+              Iniciando sesión...
+            </>
+          ) : (
+            'Iniciar Sesión'
+          )}
         </button>
       </form>
+
+      {/* Texto de ayuda */}
+      <p className={styles.helpText}>
+        ¿Olvidaste tu contraseña?{' '}
+        <a href="/recuperar" className={styles.helpLink}>
+          Recupérala aquí
+        </a>
+      </p>
     </div>
   );
 };

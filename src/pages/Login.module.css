@@ -1,0 +1,195 @@
+/* =============================================================================
+   LOGIN PAGE - CSS MODULE
+   =============================================================================
+   Los CSS Modules encapsulan los estilos a nivel de componente.
+   
+   Ventajas:
+   1. No hay conflictos de nombres de clases entre componentes
+   2. Los estilos son locales por defecto
+   3. Puedes usar nombres de clase simples sin prefijos
+   4. El bundler genera nombres únicos automáticamente
+   
+   Uso en React:
+   import styles from './Login.module.css';
+   <div className={styles.container}>
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   CONTENEDOR PRINCIPAL
+   ----------------------------------------------------------------------------- */
+.container {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07),
+              0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* -----------------------------------------------------------------------------
+   TÍTULO
+   ----------------------------------------------------------------------------- */
+.title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   MENSAJE DE ERROR
+   ----------------------------------------------------------------------------- */
+.errorContainer {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  border-left: 4px solid #ef4444;
+}
+
+.errorText {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* -----------------------------------------------------------------------------
+   FORMULARIO
+   ----------------------------------------------------------------------------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* -----------------------------------------------------------------------------
+   GRUPOS DE INPUT (Label + Input)
+   ----------------------------------------------------------------------------- */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              background-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* -----------------------------------------------------------------------------
+   BOTÓN DE SUBMIT
+   ----------------------------------------------------------------------------- */
+.submitButton {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              transform 0.1s ease,
+              box-shadow 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Estado de carga/deshabilitado */
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* -----------------------------------------------------------------------------
+   INDICADOR DE CARGA
+   ----------------------------------------------------------------------------- */
+.loadingSpinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   TEXTO DE AYUDA
+   ----------------------------------------------------------------------------- */
+.helpText {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.helpLink {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.helpLink:hover {
+  text-decoration: underline;
+}
+
+/* -----------------------------------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .container {
+    margin: 20px 16px;
+    padding: 24px 20px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+}

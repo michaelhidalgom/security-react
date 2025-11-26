@@ -1,0 +1,180 @@
+/* =============================================================================
+   DASHBOARD PAGE - CSS MODULE
+   =============================================================================
+   Estilos encapsulados para el Dashboard.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   CONTENEDOR PRINCIPAL
+   ----------------------------------------------------------------------------- */
+.container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 32px;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* -----------------------------------------------------------------------------
+   ENCABEZADO
+   ----------------------------------------------------------------------------- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   BOTÓN DE LOGOUT
+   ----------------------------------------------------------------------------- */
+.logoutButton {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.logoutButton:active {
+  transform: translateY(1px);
+}
+
+/* -----------------------------------------------------------------------------
+   MENSAJE DE BIENVENIDA
+   ----------------------------------------------------------------------------- */
+.welcomeCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.welcomeText {
+  font-size: 1.25rem;
+  color: #374151;
+  margin: 0;
+}
+
+.userName {
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+/* -----------------------------------------------------------------------------
+   TARJETA DE INFORMACIÓN DEL USUARIO
+   ----------------------------------------------------------------------------- */
+.infoCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.infoTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.infoLabel {
+  font-weight: 500;
+  color: #6b7280;
+  min-width: 80px;
+}
+
+.infoValue {
+  color: #111827;
+}
+
+/* -----------------------------------------------------------------------------
+   TARJETAS DE ESTADÍSTICAS (ejemplo de contenido adicional)
+   ----------------------------------------------------------------------------- */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.statCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin: 0;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 8px 0 0 0;
+}
+
+/* -----------------------------------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .logoutButton {
+    width: 100%;
+  }
+}
