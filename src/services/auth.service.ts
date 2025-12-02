@@ -1,8 +1,6 @@
-import { LoginCredentials, LoginResponse, 
-  User, 
-  BackendLoginResponse,
-  AuthToken,
-  HttpStatusCode 
+import {
+  LoginCredentials, LoginResponse, User,
+  BackendLoginResponse, AuthToken, HttpStatusCode
 } from '../types/auth.types';
 
 // =============================================================================
@@ -37,19 +35,11 @@ const STORAGE_KEYS = {
  * @param credentials - Email y password del usuario
  * @returns Promesa con token y datos del usuario
  * @throws Error con mensaje descriptivo si falla
- * 
- * @example
- * try {
- *   const { token, user } = await login({ email: 'test@example.com', password: '123' });
- *   console.log('Bienvenido', user.name);
- * } catch (error) {
- *   console.error('Error:', error.message);
- * }
  */
 export const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
-  
+
   let response: Response;
-  
+
   try {
     response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
@@ -71,7 +61,7 @@ export const login = async (credentials: LoginCredentials): Promise<LoginRespons
   // =========================================================================
   // Diferentes códigos de estado requieren diferentes mensajes para el usuario
   // =========================================================================
-  
+
   if (!response.ok) {
     switch (response.status) {
       case HttpStatusCode.BAD_REQUEST:
@@ -80,42 +70,42 @@ export const login = async (credentials: LoginCredentials): Promise<LoginRespons
           'Los datos enviados no son válidos. ' +
           'Verifica que el email tenga formato correcto.'
         );
-      
+
       case HttpStatusCode.UNAUTHORIZED:
         // 401 - Credenciales incorrectas
         throw new Error(
           'Email o contraseña incorrectos. ' +
           'Por favor, verifica tus credenciales e intenta nuevamente.'
         );
-      
+
       case HttpStatusCode.FORBIDDEN:
         // 403 - Usuario bloqueado o sin permisos
         throw new Error(
           'Tu cuenta está bloqueada o no tiene permisos de acceso. ' +
           'Contacta al administrador.'
         );
-      
+
       case HttpStatusCode.NOT_FOUND:
         // 404 - Usuario no existe
         throw new Error(
           'No existe una cuenta con ese email. ' +
           '¿Deseas registrarte?'
         );
-      
+
       case HttpStatusCode.INTERNAL_SERVER_ERROR:
         // 500 - Error del servidor
         throw new Error(
           'Error interno del servidor. ' +
           'Por favor, intenta nuevamente en unos minutos.'
         );
-      
+
       case HttpStatusCode.SERVICE_UNAVAILABLE:
         // 503 - Servidor en mantenimiento
         throw new Error(
           'El servicio está temporalmente no disponible. ' +
           'Estamos trabajando para resolverlo.'
         );
-      
+
       default:
         // Cualquier otro error
         throw new Error(
@@ -128,9 +118,9 @@ export const login = async (credentials: LoginCredentials): Promise<LoginRespons
   // =========================================================================
   // PROCESAR RESPUESTA EXITOSA
   // =========================================================================
-  
+
   let data: BackendLoginResponse;
-  
+
   try {
     data = await response.json();
   } catch (parseError) {
@@ -199,11 +189,11 @@ export const saveUser = (user: User): void => {
  */
 export const getUser = (): User | null => {
   const userStr = localStorage.getItem(STORAGE_KEYS.USER);
-  
+
   if (!userStr) {
     return null;
   }
-  
+
   try {
     return JSON.parse(userStr) as User;
   } catch {

@@ -22,7 +22,8 @@ import { AuthContextType } from '../types/auth.types';
 // =============================================================================
 
 export const useAuth = (): AuthContextType => {
-  // Obtenemos el valor actual del contexto
+  
+  // Obtiene el value del Provider
   const authContexType = useContext(AuthContext);
   
   // Si context es null, significa que useAuth() se está usando
@@ -33,15 +34,15 @@ export const useAuth = (): AuthContextType => {
       'Asegúrate de envolver tu aplicación con <AuthProvider>.'
     );
   }
-  // {user, token, login...}
+  
+  // return {user, token, login, logout, isAuthenticated};
   return authContexType;
 };
 
 // =============================================================================
-// EJEMPLO DE USO
+// EJEMPLO DE USO: En cualquier componente dentro de AuthProvider 
 // =============================================================================
 // 
-// // En cualquier componente dentro de AuthProvider:
 // import { useAuth } from '../context/useAuth';
 // 
 // const MiComponente = () => {

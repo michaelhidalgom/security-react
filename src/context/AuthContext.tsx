@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
-import { AuthContextType, User, LoginResult } from '../types/auth.types';
+import { AuthContextType, User, LoginResult, AuthToken} from '../types/auth.types';
 import * as authService from '../services/auth.service';
 
 // =============================================================================
@@ -7,9 +7,6 @@ import * as authService from '../services/auth.service';
 // =============================================================================
 // El contexto es un "contenedor global" que permite compartir datos entre
 // componentes sin necesidad de pasar props manualmente en cada nivel.
-// 
-// Flujo: AuthProvider envuelve la app → cualquier componente hijo puede
-// acceder a user, token, login, logout usando el hook useAuth()
 // =============================================================================
 
 // Creamos el contexto con valor inicial null
@@ -33,12 +30,13 @@ interface AuthProviderProps {
 // 4. Envuelve a todos los componentes que necesitan acceso a la autenticación
 // =============================================================================
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+
   // Estado del usuario actual (null si no está logueado)
   const [user, setUser] = useState<User | null>(null);
-  
+
   // Token JWT para autenticar peticiones al backend
   const [token, setToken] = useState<AuthToken | null>(null);
-  
+
   // Indica si estamos verificando la sesión guardada
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -46,9 +44,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // EFECTO: Recuperar sesión al cargar la aplicación
   // =========================================================================
   // useEffect con array vacío [] se ejecuta solo una vez al montar el componente
+  // useEffect se ejecuta despues del RENDER #1
   // Aquí verificamos si hay una sesión guardada en localStorage
   // =========================================================================
   useEffect(() => {
+    
     const savedToken = authService.getToken();
     const savedUser = authService.getUser();
 
@@ -57,10 +57,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken(savedToken);
       setUser(savedUser);
     }
-    
+
     // Indicamos que terminamos de verificar
-    setLoading(false);
-  }, []);
+    setLoading(false);  //Esto dispara el RENDER #2 
+
+  }, []); // Array vacío = solo se ejecuta UNA VEZ
 
   // =========================================================================
   // FUNCIÓN: Iniciar sesión
@@ -68,7 +69,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Recibe email y password, los envía al backend, y si es exitoso:
   // 1. Guarda el token y usuario en localStorage (persistencia)
   // 2. Actualiza el estado del contexto
-  // 3. Retorna { success: true } o { success: false, error: "mensaje" }
   // =========================================================================
   const login = async (email: string, password: string): Promise<LoginResult> => {
     try {
@@ -80,10 +80,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       authService.saveUser(data.user);
 
       // Actualizamos el estado del contexto
-      setToken(data.token);
-      setUser(data.user);
+      setToken(data.token); // re-render de AuthProvider
+      setUser(data.user); // re-render de AuthProvider
 
       return { success: true };
+      
     } catch (error) {
       // Capturamos el mensaje de error para mostrarlo al usuario
       const message = error instanceof Error ? error.message : 'Error desconocido';
@@ -108,31 +109,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // =========================================================================
   // Este objeto es lo que reciben los componentes al usar useAuth()
   // =========================================================================
-  const value: AuthContextType = {
+  const authContextType: AuthContextType = {
     user,
     token,
     login,
     logout,
-    isAuthenticated: !!token, // Convierte token a booleano: true si existe
+    isAuthenticated: !!token, // Convierte token a booleano: true si el token existe
   };
 
   // Mientras verificamos la sesión, mostramos un loading
   // Esto evita que se muestre brevemente la página de login
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div>Cargando...</div>;  // RENDER #1
   }
 
+  // Cuando loading sea false, retorna esto
   // Proveemos el contexto a todos los componentes hijos
   return (
-    <AuthContext.Provider value={value}>
-      {children}
+    <AuthContext.Provider value={authContextType}>
+      {children}  {/* RENDER #2 */}
     </AuthContext.Provider>
   );
 };
 
-// =============================================================================
-// TIPO PERSONALIZADO PARA TOKEN
-// =============================================================================
-// Importamos el tipo desde auth.types.ts para mantener consistencia
-// =============================================================================
-type AuthToken = string; // JWT token del backend

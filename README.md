@@ -1,10 +1,7 @@
 # Sistema de Autenticación con React Context API
 
-> **Proyecto educativo** para aprender autenticación en React usando Context API, TypeScript y React Router.
 
----
-
-## 📚 Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Descripción General](#descripción-general)
 2. [Estructura del Proyecto](#estructura-del-proyecto)
@@ -141,17 +138,17 @@ auth.service.ts recibe respuesta de error del backend
     │   ¿Cuál es el status code?            │
     └───────────────────────────────────────┘
             │
-    ┌───────┼───────┬───────┬───────┬───────┐
-    │       │       │       │       │       │
-    ▼       ▼       ▼       ▼       ▼       ▼
-  400     401     403     404     500    otros
-   │       │       │       │       │       │
-   ▼       ▼       ▼       ▼       ▼       ▼
-"Datos   "Email  "Cuenta "No     "Error  "Error
- inváli-  o con-  blo-    existe  del    inespe-
- dos"     traseña queada" cuenta" servidor" rado"
-   │       │       │       │       │       │
-   └───────┴───────┴───────┴───────┴───────┘
+    ┌───────┼───────┬───────┬───────┬───────┬───────┐
+    │       │       │       │       │       │       │
+    ▼       ▼       ▼       ▼       ▼       ▼       ▼
+  400     401     403     404     500     503    otros
+   │       │       │       │       │       │       │
+   ▼       ▼       ▼       ▼       ▼       ▼       ▼
+"Datos   "Email  "Cuenta "No     "Error  "Servi- "Error
+ inváli-  o con-  blo-    existe  del     cio no  inespe-
+ dos"     traseña queada" cuenta" servidor" disp."  rado"
+   │       │       │       │       │       │       │
+   └───────┴───────┴───────┴───────┴───────┴───────┘
                     │
                     ▼
         throw new Error(mensaje descriptivo)
@@ -420,9 +417,3 @@ Conceptos que aprenderás:
 3. **Agregar roles de usuario** (admin, user, guest)
 4. **Implementar con `useReducer`** para estado más complejo
 5. **Agregar tests** con React Testing Library
-
----
-
-## Licencia
-
-Proyecto educativo - Úsalo libremente para aprender 🎓

@@ -14,11 +14,6 @@ import styles from './Login.module.css';
 // 2. Al enviar, llamamos a login() del contexto
 // 3. Si es exitoso, navegamos al dashboard
 // 4. Si falla, mostramos el mensaje de error
-//
-// CSS Modules:
-// - Importamos estilos como objeto: import styles from './Login.module.css'
-// - Usamos clases así: className={styles.nombreClase}
-// - Esto genera nombres únicos y evita conflictos
 // =============================================================================
 
 const Login = () => {
@@ -33,10 +28,10 @@ const Login = () => {
   // =========================================================================
   // HOOKS
   // =========================================================================
-  // useAuth: Acceso al contexto de autenticación
+  // useAuth(): Acceso al contexto de autenticación.
+  //            retorna {user, token, login, logout, isAuthenticated}
   // useNavigate: Para redireccionar después del login
   // =========================================================================
-  //{user, token, login...}
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -47,9 +42,9 @@ const Login = () => {
     // Prevenir recarga de página (comportamiento por defecto de los forms)
     e.preventDefault();
     
-    // Limpiar error anterior y mostrar loading
+    // Limpiar error anterior y muestra loading
     setError('');
-    setLoading(true);
+    setLoading(true);   // RENDER #1: muestra spinner
 
     // Intentar login
     const result = await login(email, password);
@@ -60,10 +55,10 @@ const Login = () => {
     } else {
       // Login fallido: mostrar error al usuario
       // El mensaje viene del auth.service con información útil
-      setError(result.error || 'Error al iniciar sesión');
+      setError(result.error || 'Error al iniciar sesión');  // RENDER #2: muestra error
     }
     
-    setLoading(false);
+    setLoading(false);  // RENDER #3: quita spinner
   };
 
   // =========================================================================

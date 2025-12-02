@@ -24,7 +24,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  
+
   // Obtenemos el estado de autenticación del contexto
   const { isAuthenticated } = useAuth();
 
@@ -35,7 +35,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   // Si está autenticado, renderizamos el contenido protegido
-  // Fragment (<>) evita añadir un div extra al DOM
+  // Usa fragmento para satisfacer el tipo de retorno JSX.Element de TypeScript
   return <>{children}</>;
 };
 
@@ -47,39 +47,25 @@ export default ProtectedRoute;
 //
 // ¿Por qué usar "replace" en Navigate?
 // -------------------------------------
-// Sin "replace":  historial = [..., /dashboard, /login]
+// Sin "replace":  historial = [..., /, /dashboard, /login]
 //                 El usuario puede presionar "atrás" y volver a intentar
 //                 acceder a la ruta protegida.
-// 
+//
 // Con "replace":  historial = [..., /login]
 //                 Se reemplaza la entrada, comportamiento más limpio.
 //
 // Patrón de Rutas Protegidas
 // --------------------------
 // Este es un patrón muy común en aplicaciones React:
-// 
+//
 // 1. RUTAS PÚBLICAS: Accesibles sin autenticación
 //    - /login
 //    - /registro
 //    - /recuperar-password
-// 
+//
 // 2. RUTAS PROTEGIDAS: Requieren autenticación
 //    - /dashboard
 //    - /perfil
 //    - /configuracion
-//
-// Alternativa: Higher-Order Component (HOC)
-// -----------------------------------------
-// Otra forma de implementar esto sería con un HOC:
-// 
-// const withAuth = (Component) => {
-//   return (props) => {
-//     const { isAuthenticated } = useAuth();
-//     if (!isAuthenticated) return <Navigate to="/login" />;
-//     return <Component {...props} />;
-//   };
-// };
-// 
-// const ProtectedDashboard = withAuth(Dashboard);
 //
 // =============================================================================
